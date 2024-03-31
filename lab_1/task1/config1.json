@@ -1,0 +1,6 @@
+{
+    "text_file": "K:/Pyth/ISB/isb/lab_1/task1/my_text.txt",
+    "crypted_file": "K:/Pyth/ISB/isb/lab_1/task1/crypted_text.txt",
+    "Key1": "K:/Pyth/ISB/isb/lab_1/task1/Key1.json",
+    "shift": 5
+}
