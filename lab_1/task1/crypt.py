@@ -2,6 +2,7 @@ import json
 import os
 from typing import Tuple, Dict
 
+
 def caesar_cipher(text: str, shift: int) -> Tuple[str, Dict[str, str]]:
     """
     Encrypts the text using the Caesar cipher with the specified shift.
@@ -35,6 +36,7 @@ def caesar_cipher(text: str, shift: int) -> Tuple[str, Dict[str, str]]:
             key[char] = char
     return result, key
 
+
 def encoder(input_file: str, output_file: str, shift: int, key_file: str) -> None:
     """
     Encrypts the text from the input file and saves the result to the output file.
@@ -46,20 +48,37 @@ def encoder(input_file: str, output_file: str, shift: int, key_file: str) -> Non
         shift (int): The shift value for encryption.
         key_file (str): The path to the file where the key will be saved.
     """
-    with open(input_file, 'r', encoding='utf-8') as f:
-        text = f.read()
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            text = f.read()
 
-    encoded_text, key = caesar_cipher(text, shift)
+        encoded_text, key = caesar_cipher(text, shift)
 
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write(encoded_text)
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(encoded_text)
 
-    reversed_key = {v: k for k, v in key.items()}
-    with open(key_file, 'w', encoding='utf-8') as f:
-        json.dump(reversed_key, f, ensure_ascii=False, indent=4)
+        reversed_key = {v: k for k, v in key.items()}
+        with open(key_file, 'w', encoding='utf-8') as f:
+            json.dump(reversed_key, f, ensure_ascii=False, indent=4)
+
+    except FileNotFoundError:
+        print("File not found. Please check the file path.")
+    except Exception as e:
+        print("An error occurred:", e)
+
 
 if __name__ == '__main__':
-    with open(os.path.join("lab_1", "task1", "config1.json"), 'r', encoding='utf-8') as json_file:
-        config = json.load(json_file)
-    
-    encoder(config["text_file"], config["crypted_file"], config["shift"], config["Key1"])
+    try:
+        with open(os.path.join("lab_1", "task1", "config1.json"), 'r', encoding='utf-8') as json_file:
+            config = json.load(json_file)
+
+        encoder(config["text_file"], config["crypted_file"], config["shift"], config["Key1"])
+
+    except FileNotFoundError:
+        print("Config file not found. Please ensure the config file exists in the specified path.")
+    except json.JSONDecodeError:
+        print("Config file is not valid JSON.")
+    except KeyError as e:
+        print(f"Key {e} not found in the config file.")
+    except Exception as e:
+        print("An error occurred:", e)
