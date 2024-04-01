@@ -26,33 +26,26 @@ def caesar_cipher(text: str, shift: int, mode: CipherMode) -> Tuple[str, Dict[st
     key = {}
     for char in text:
         if char.isalpha():
-            if mode == CipherMode.ENCRYPT:
-                shifted = ord(char) + shift
-            else:
-                shifted = ord(char) - shift
+            shifted = ord(char) + shift if mode == CipherMode.ENCRYPT else ord(char) - shift
 
-            if char.islower():
-                if mode == CipherMode.ENCRYPT:
-                    if shifted > ord('я'):
-                        shifted -= 32
-                    elif shifted < ord('а'):
-                        shifted += 32
-                else:
-                    if shifted < ord('а'):
-                        shifted += 32
-                    elif shifted > ord('я'):
-                        shifted -= 32
-            elif char.isupper():
-                if mode == CipherMode.ENCRYPT:
-                    if shifted > ord('Я'):
-                        shifted -= 32
-                    elif shifted < ord('А'):
-                        shifted += 32
-                else:
-                    if shifted < ord('А'):
-                        shifted += 32
-                    elif shifted > ord('Я'):
-                        shifted -= 32
+            case_lower = char.islower()
+            case_upper = char.isupper()
+            case = auto
+            match case:
+                case True if case_lower:
+                    if mode == CipherMode.ENCRYPT:
+                        shifted -= 32 if shifted > ord('я') else 0
+                        shifted += 32 if shifted < ord('а') else 0
+                    else:
+                        shifted += 32 if shifted < ord('а') else 0
+                        shifted -= 32 if shifted > ord('я') else 0
+                case True if case_upper:
+                    if mode == CipherMode.ENCRYPT:
+                        shifted -= 32 if shifted > ord('Я') else 0
+                        shifted += 32 if shifted < ord('А') else 0
+                    else:
+                        shifted += 32 if shifted < ord('А') else 0
+                        shifted -= 32 if shifted > ord('Я') else 0
 
             result += chr(shifted)
             key[char] = chr(shifted)
@@ -61,6 +54,7 @@ def caesar_cipher(text: str, shift: int, mode: CipherMode) -> Tuple[str, Dict[st
             key[char] = char
 
     return result, key
+
 
 
 def encoder(input_file: str, output_file: str, shift: int, key_file: str, mode: CipherMode) -> None:
