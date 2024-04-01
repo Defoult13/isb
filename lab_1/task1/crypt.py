@@ -1,5 +1,5 @@
-import json
 import os
+import json
 from enum import Enum, auto
 from typing import Tuple, Dict
 
