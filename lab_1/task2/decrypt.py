@@ -29,10 +29,10 @@ def decrypt_text(text_file, dictionary_file, output_file) -> None:
         decrypted_text = ""
 
         with open(text_file_path, 'r', encoding='utf-8') as file:
-            for line in file:
-                for char in line:
-                    decrypted_char = dictionary.get(char, char)
-                    decrypted_text += decrypted_char
+            file_text = file.read()
+            for char in file_text:
+                decrypted_char = dictionary.get(char, char)
+                decrypted_text += decrypted_char
 
         with open(output_file_path, 'w', encoding='utf-8') as output:
             output.write(decrypted_text)

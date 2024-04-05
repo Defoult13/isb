@@ -6,8 +6,8 @@ from typing import Tuple, Dict
 
 
 class CipherMode(Enum):
-    ENCRYPT = auto()
-    DECRYPT = auto()
+    ENCRYPT = 1
+    DECRYPT = 2
 
 
 def caesar_cipher(text: str, shift: int, mode: CipherMode) -> Tuple[str, Dict[str, str]]:
@@ -33,19 +33,21 @@ def caesar_cipher(text: str, shift: int, mode: CipherMode) -> Tuple[str, Dict[st
             case = auto
             match case:
                 case True if case_lower:
-                    if mode == CipherMode.ENCRYPT:
-                        shifted -= 32 if shifted > ord('я') else 0
-                        shifted += 32 if shifted < ord('а') else 0
-                    else:
-                        shifted += 32 if shifted < ord('а') else 0
-                        shifted -= 32 if shifted > ord('я') else 0
+                    match mode:
+                        case CipherMode.ENCRYPT:
+                            shifted -= 32 if shifted > ord('я') else 0
+                            shifted += 32 if shifted < ord('а') else 0
+                        case CipherMode.DECRYPT:
+                            shifted += 32 if shifted < ord('а') else 0
+                            shifted -= 32 if shifted > ord('я') else 0
                 case True if case_upper:
-                    if mode == CipherMode.ENCRYPT:
-                        shifted -= 32 if shifted > ord('Я') else 0
-                        shifted += 32 if shifted < ord('А') else 0
-                    else:
-                        shifted += 32 if shifted < ord('А') else 0
-                        shifted -= 32 if shifted > ord('Я') else 0
+                    match mode:
+                        case CipherMode.ENCRYPT:
+                            shifted -= 32 if shifted > ord('Я') else 0
+                            shifted += 32 if shifted < ord('А') else 0
+                        case CipherMode.DECRYPT:
+                            shifted += 32 if shifted < ord('А') else 0
+                            shifted -= 32 if shifted > ord('Я') else 0
 
             result += chr(shifted)
             key[char] = chr(shifted)
@@ -54,7 +56,6 @@ def caesar_cipher(text: str, shift: int, mode: CipherMode) -> Tuple[str, Dict[st
             key[char] = char
 
     return result, key
-
 
 
 def encoder(input_file: str, output_file: str, shift: int, key_file: str, mode: CipherMode) -> None:
@@ -72,11 +73,11 @@ def encoder(input_file: str, output_file: str, shift: int, key_file: str, mode: 
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             text = f.read()
-
-        if mode == CipherMode.ENCRYPT:
-            encoded_text, key = caesar_cipher(text, shift, CipherMode.ENCRYPT)
-        elif mode == CipherMode.DECRYPT:
-            encoded_text, key = caesar_cipher(text, shift, CipherMode.DECRYPT)
+        match mode:
+            case CipherMode.ENCRYPT:
+                encoded_text, key = caesar_cipher(text, shift, CipherMode.ENCRYPT)
+            case CipherMode.DECRYPT:
+                encoded_text, key = caesar_cipher(text, shift, CipherMode.DECRYPT)
 
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(encoded_text)
@@ -95,8 +96,9 @@ if __name__ == '__main__':
         with open(os.path.join("lab_1", "task1", "config1.json"), 'r', encoding='utf-8') as json_file:
             config = json.load(json_file)
 
-        mode = CipherMode.ENCRYPT if config["mode"] == "encrypt" else CipherMode.DECRYPT
-        encoder(config["text_file"], config["crypted_file"], config["shift"], config["Key1"], mode)
+
+        encoder(config["text_file"], config["crypted_file"], config["shift"], config["Key1"], CipherMode.ENCRYPT)
+        encoder(config["crypted_file"], config["decrypted_file"], config["shift"], config["Key3"], CipherMode.DECRYPT)
 
     except FileNotFoundError:
         print("Config file not found. Please ensure the config file exists in the specified path.")
