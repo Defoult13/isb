@@ -9,16 +9,16 @@ using namespace std;
 string generateRandomBinarySequence(int size) {
     string binarySequence = "";
     for (int i = 0; i < size; ++i) {
-        int randomBit = rand() % 2; // Генерируем случайный бит (0 или 1)
+        int randomBit = rand() % 2;
         stringstream ss;
-        ss << randomBit; // Преобразуем бит в строку и добавляем к последовательности
+        ss << randomBit;
         binarySequence += ss.str();
     }
     return binarySequence;
 }
 
 int main() {
-    srand(time(0)); // Инициализация генератора случайных чисел текущим временем
+    srand(time(0));
 
     int size;
     cout << "Введите размер последовательности бинарных чисел: ";
