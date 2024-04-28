@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Генерация случайной последовательности бинарных чисел заданного размера
+
 string generateRandomBinarySequence(int size) {
     string binarySequence = "";
     for (int i = 0; i < size; ++i) {
