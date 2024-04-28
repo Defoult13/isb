@@ -43,4 +43,29 @@ def longest_run_of_ones_test(sequence, block_size=8):
     P_value = math.erfc(X_squared / 2)
     return P_value
 
+def main():
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, 'config.json')
+    
+    with open(config_path, 'r') as config_file:
+        config_data = json.load(config_file)
+    path_input = config_data["input"]
+    path_output = config_data["output"]
+    
+    input_dir = os.path.dirname(path_input)
+    gen_results_path = os.path.join(input_dir, 'gen_results.json')
+    
+    with open(gen_results_path, 'r') as results_file:
+        results_data = json.load(results_file)
+    
+    with open(path_output, 'w') as output_file:
+        for generator, sequence in results_data.items():
+            output_file.write(f"Generator: {generator}\n")
+            output_file.write("Bit Frequency Test P-value: {}\n".format(bit_frequency_test(sequence)))
+            output_file.write("Consecutive Bit Test P-value: {}\n".format(consecutive_bit_test(sequence)))
+            output_file.write("Longest Run of Ones Test P-value: {}\n".format(longest_run_of_ones_test(sequence)))
+            output_file.write("\n")
+
+if __name__ == "__main__":
+    main()
