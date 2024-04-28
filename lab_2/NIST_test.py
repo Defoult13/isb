@@ -2,13 +2,35 @@ import json
 import os
 import math
 
-def bit_frequency_test(sequence):
+from typing import List
+
+
+def bit_frequency_test(sequence: str) -> float:
+    """
+    Calculate the P-value of the Bit Frequency Test for a given binary sequence.
+
+    Args:
+        sequence (str): The binary sequence.
+
+    Returns:
+        float: The P-value of the Bit Frequency Test.
+    """
     transformed_sequence = [1 if bit == '1' else -1 for bit in sequence]
     Sn = sum(transformed_sequence) / math.sqrt(len(sequence))
     P_value = math.erfc(Sn / math.sqrt(2))
     return P_value
 
-def consecutive_bit_test(sequence):
+
+def consecutive_bit_test(sequence: str) -> float:
+    """
+    Calculate the P-value of the Consecutive Bit Test for a given binary sequence.
+
+    Args:
+        sequence (str): The binary sequence.
+
+    Returns:
+        float: The P-value of the Consecutive Bit Test.
+    """
     n = len(sequence)
     y = sum(int(bit) for bit in sequence) / n
     if abs(y - 1/2) >= 2 / math.sqrt(n):
@@ -17,7 +39,18 @@ def consecutive_bit_test(sequence):
     P_value = math.erfc(abs(Vn - 2 * n * y * (1 - y)) / (2 * math.sqrt(2 * n) * y * (1 - y)))
     return P_value
 
-def longest_run_of_ones_test(sequence, block_size=8):
+
+def longest_run_of_ones_test(sequence: str, block_size: int = 8) -> float:
+    """
+    Calculate the P-value of the Longest Run of Ones Test for a given binary sequence.
+
+    Args:
+        sequence (str): The binary sequence.
+        block_size (int, optional): The size of blocks to divide the sequence into. Defaults to 8.
+
+    Returns:
+        float: The P-value of the Longest Run of Ones Test.
+    """
     n = len(sequence)
     blocks = [sequence[i:i+block_size] for i in range(0, n, block_size)]
     V = [0, 0, 0, 0]  # V1, V2, V3, V4
@@ -43,8 +76,11 @@ def longest_run_of_ones_test(sequence, block_size=8):
     P_value = math.erfc(X_squared / 2)
     return P_value
 
-def main():
 
+def main() -> None:
+    """
+    Main function to read input, perform tests, and write results to an output file.
+    """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, 'config.json')
     
@@ -66,6 +102,7 @@ def main():
             output_file.write("Consecutive Bit Test P-value: {}\n".format(consecutive_bit_test(sequence)))
             output_file.write("Longest Run of Ones Test P-value: {}\n".format(longest_run_of_ones_test(sequence)))
             output_file.write("\n")
+
 
 if __name__ == "__main__":
     main()
