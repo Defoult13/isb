@@ -10,7 +10,7 @@ from scipy.special import gammaincc
 logging.basicConfig(level=logging.INFO)
 
 
-Pi = [0.2148, 0.3672, 0.2305, 0.1875]
+PI_VALUES = [0.2148, 0.3672, 0.2305, 0.1875]
 
 
 def bit_frequency_test(sequence: str) -> float:
@@ -89,7 +89,7 @@ def longest_run_of_ones_test(sequence: str, block_size: int = 8) -> float:
                     V[2] += 1
                 case _:
                     V[3] += 1
-        X_squared = sum(((V[i] - 16 * Pi[i]) ** 2) / (16 * Pi[i]) for i in range(len(Pi)))
+        X_squared = sum(((V[i] - 16 * PI_VALUES[i]) ** 2) / (16 * PI_VALUES[i]) for i in range(len(PI_VALUES)))
         P_value = gammaincc(1.5, X_squared / 2)
         return P_value
     except Exception as e:
