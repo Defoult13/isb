@@ -4,9 +4,13 @@ import math
 import logging
 
 from typing import List
+from scipy.special import gammaincc
 
 
 logging.basicConfig(level=logging.INFO)
+
+
+Pi = [0.2148, 0.3672, 0.2305, 0.1875]
 
 
 def bit_frequency_test(sequence: str) -> float:
@@ -85,9 +89,8 @@ def longest_run_of_ones_test(sequence: str, block_size: int = 8) -> float:
                     V[2] += 1
                 case _:
                     V[3] += 1
-        Pi = [0.2148, 0.3672, 0.2305, 0.1875]
-        X_squared = sum(((V[i] - 16 * Pi[i]) ** 2) / (16 * Pi[i]) for i in range(4))
-        P_value = math.erfc(X_squared / 2)
+        X_squared = sum(((V[i] - 16 * Pi[i]) ** 2) / (16 * Pi[i]) for i in range(len(Pi)))
+        P_value = gammaincc(1.5, X_squared / 2)
         return P_value
     except Exception as e:
         logging.error(f"An error occurred in longest_run_of_ones_test: {e}")
