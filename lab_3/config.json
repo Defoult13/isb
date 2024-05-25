@@ -3,8 +3,8 @@
     "iv_path": "K:/Pyth/ISB/isb/lab_3/iv_file.txt",
     "encrypted_text_path": "K:/Pyth/ISB/isb/lab_3/texts/encrypted_text_file.txt",
     "decrypted_text_path": "K:/Pyth/ISB/isb/lab_3/texts/decrypted_text_file.txt",
-    "public_key_path": "K:/Pyth/ISB/isb/lab_3/public_key.pem",
-    "private_key_path": "K:/Pyth/ISB/isb/lab_3/private_key_key.pem",
-    "encrypted_seed_key_path": "K:/Pyth/ISB/isb/lab_3/encrypted_seed_key.txt",
+    "public_key_path": "K:/Pyth/ISB/isb/lab_3/keys/public_key.pem",
+    "private_key_path": "K:/Pyth/ISB/isb/lab_3/keys/private_key_key.pem",
+    "encrypted_seed_key_path": "K:/Pyth/ISB/isb/lab_3/keys/encrypted_seed_key.txt",
     "text_path": "K:/Pyth/ISB/isb/lab_3/texts/text.txt"
 }
