@@ -16,8 +16,18 @@ logging.basicConfig(level=logging.INFO)
 def main(config_path, operation):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.json")
-    with open(config_path, "r") as file:
-        config = json.load(file)
+    try:
+        with open(config_path, "r") as file:
+            config = json.load(file)
+    except FileNotFoundError:
+        logging.error(f"Configuration file not found: {config_path}")
+        return
+    except json.JSONDecodeError:
+        logging.error(f"Error decoding JSON from the configuration file: {config_path}")
+        return
+    except Exception as e:
+        logging.error(f"Unexpected error reading configuration file: {e}")
+        return
     if operation:
         config["operation"] = operation
     match config["operation"]:
