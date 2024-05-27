@@ -14,8 +14,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 def main(config_path, operation):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "config.json")
     try:
         with open(config_path, "r") as file:
             config = json.load(file)
@@ -100,7 +98,7 @@ def main(config_path, operation):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process some cryptographic operations.")
-    parser.add_argument("--config_path", type=str, default= os.path.join("K", "Pyth", "ISB", "isb", "lab_3", "config.json"), help="Path to the JSON configuration file.")
+    parser.add_argument("--config_path", type=str, default= os.path.join('lab_3', 'config.json'), help="Path to the JSON configuration file.")
     parser.add_argument("--operation", type=str, default= "decrypt_text", help="Operation to perform (overrides the operation in the config file).")
     args = parser.parse_args()
     main(args.config_path, args.operation)
