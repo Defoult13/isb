@@ -1,7 +1,17 @@
 import sys
 import logging
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBoxLayout, QWidget, QLineEdit, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import (
+    QApplication, 
+    QMainWindow, 
+    QLabel, 
+    QPushButton, 
+    QVBoxLayout, 
+    QWidget, 
+    QLineEdit, 
+    QMessageBox, 
+    QFileDialog)
+
 from multiprocessing import cpu_count
 
 from functions import number_selection, graph
